@@ -17,7 +17,10 @@ db.once('open', () => {
 });
 
 app.set('view engine', 'ejs');
+app.use('/images', express.static(__dirname + '/public/images'));
+app.use('/js', express.static(__dirname + '/public/js'));
 app.use('/', timer);
+
 
 let port = 4000;
 
