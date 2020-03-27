@@ -7,11 +7,11 @@
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
         </head>
         <body>
-            <div class="container">
+            <div class="container" id="container">
                 <div class="title">
                     <h1>AssisTimer</h1>
                 </div>
-                <div class="section">
+                <div class="section" id="setTime">
                     <div class="subtitle">
                         <h2>Timer - Réglez votre rythme de travail</h2>
                     </div>
@@ -40,7 +40,9 @@
                             </div>
                             <div class="column">
                                 <br/>
-                                <img src="/images/play_off.svg" alt="Bouton pour commencer le timer" style="width: 50px;">
+                                <a id="timer">
+                                    <img src="/images/play_off.svg" alt="Bouton pour commencer le timer" style="width: 50px;">
+                                </a>
                             </div>
 
                         </div>
@@ -85,7 +87,7 @@
                 </div>
                 
             </div>
-            <script type="text/javascript" src="/js/timer.js" />
+            <script type="text/javascript" src="/js/timer.js"></script>
         
         </body>
     </html>
