@@ -6,11 +6,14 @@ button.addEventListener("click", timerField);
 function timerField() {
 
     timeSetter.innerHTML = "";
+
     let lineBreak = document.createElement("br");
 
+    let columns = document.createElement("div");
+    columns.classList.add("columns", "is-mobile");
+
     let subtitleDiv = document.createElement("div");
-    subtitleDiv.classList.add("subtitle");
-    subtitleDiv.classList.add("is-4");
+    subtitleDiv.classList.add("subtitle", "is-4");
 
     let newH2 = document.createElement("h2");
     let newTextH2 = document.createTextNode("Timer - En marche");
@@ -21,10 +24,11 @@ function timerField() {
 
     let beginSinceDiv = document.createElement("div");
     beginSinceDiv.setAttribute("id", "beginSinceDiv");
+    beginSinceDiv.classList.add("column", "is-one-quarter");
 
     let beginBaliseTitle = document.createElement("p");
     beginBaliseTitle.setAttribute("id", "beginSinceTitle");
-    let beginTextTitle = document.createTextNode("À commencé depuis:");
+    let beginTextTitle = document.createTextNode("À commencer depuis:");
 
     let beginBaliseWatch = document.createElement("p");
     beginBaliseWatch.setAttribute("id", "beginSinceWatch");
@@ -33,6 +37,7 @@ function timerField() {
 
     let finishAtDiv = document.createElement("div");
     finishAtDiv.setAttribute("id", "finishAtDiv");
+    finishAtDiv.classList.add("column", "is-one-quarter");
 
     let finishBaliseTitle = document.createElement("p");
     finishBaliseTitle.setAttribute("id", "finishAtTitle");
@@ -42,6 +47,12 @@ function timerField() {
     finishBaliseWatch.setAttribute("id", "FinishAtWatch");
 
     finishBaliseTitle.appendChild(finishTitleText);
+
+    let beginDateDiv = document.createElement("div");
+    beginDateDiv.classList.add("column", "is-one-quarter");
+
+    let endDateDiv = document.createElement("div");
+    endDateDiv.classList.add("column", "is-one-quarter");
     
     function addCounter(){ 
 
@@ -105,22 +116,22 @@ function timerField() {
                     if (subMinute >= 0 && subSecond <= 0){
                         clearInterval(subCounter);
                         subMinute -= 1;
-                        subSecond = 59
+                        subSecond = 59;
                         subCounterInterval();
                     }
                 } else if (subMinute < 10 && subSecond < 10){
                     document.getElementById("FinishAtWatch").innerHTML = `0${subMinute}:0${subSecond}`;
                     subSecond -= 1;
-                    if (subMinute >= 0 && subSecond <= 0){
+                    if (subMinute >= 0 && subSecond < 0){
                         clearInterval(subCounter);
                         subMinute -= 1;
-                        subSecond = 59
+                        subSecond = 59;
                         subCounterInterval();
                     }
                 } else if (subMinute >= 10 && subSecond < 10){
                     document.getElementById("FinishAtWatch").innerHTML = `${subMinute}:0${subSecond}`;
                     subSecond -= 1;
-                    if (subSecond == 0){
+                    if (subSecond < 0){
                         clearInterval(subCounter);
                         subMinute -= 1;
                         subSecond = 59
@@ -143,24 +154,83 @@ function timerField() {
         subCounterInterval();
     };
 
+    let timeBaliseNow = document.createElement("p");
+    let timeBaliseAfter = document.createElement("p");
+
+    function endDate(){
+        function checkTime(time){
+            if (time < 10){
+                time = `0${time}`;
+            };
+            return time;
+        }
+
+        function countTime() {
+
+            function nowTime(){
+                let now = new Date();
+                let h = now.getHours();
+                let m = now.getMinutes();
+                let s = now.getSeconds();
+
+                h = checkTime(h);
+                m = checkTime(m);
+                s = checkTime(s);
+
+                timeBaliseNow.innerHTML = `Commencer à:<br/> ${h}:${m}:${s}`;
+            }
+
+            function afterTime(){
+                let now = new Date();
+                let h = now.getHours();
+                let m = now.getMinutes();
+                let s = now.getSeconds();
+                
+                m = m + 25;
+
+                if (m >= 60) {
+                    m = m - 60;
+                    h += 1;
+                }
+
+                h = checkTime(h);
+                m = checkTime(m);
+                s = checkTime(s);
+
+                timeBaliseAfter.innerHTML = `Terminer à:<br/> ${h}:${m}:${s}`;
+            }
+            
+            nowTime();
+            afterTime();
+
+        }
+
+        
+        countTime();
+    }
+
     beginSinceDiv.appendChild(beginBaliseTitle);
     beginSinceDiv.appendChild(beginBaliseWatch);
 
     finishAtDiv.appendChild(finishBaliseTitle);
     finishAtDiv.appendChild(finishBaliseWatch);
-
+    
     timeSetter.appendChild(subtitleDiv);
-    timeSetter.appendChild(lineBreak);
-    timeSetter.appendChild(beginSinceDiv);
-    timeSetter.appendChild(lineBreak);
-    timeSetter.appendChild(finishAtDiv);
+    timeSetter.appendChild(columns);
+    columns.appendChild(beginSinceDiv);
+    columns.appendChild(finishAtDiv);
+
+    columns.appendChild(beginDateDiv);
+    beginDateDiv.appendChild(timeBaliseNow);
+    columns.appendChild(endDateDiv);
+    endDateDiv.appendChild(timeBaliseAfter);
 
     document.getElementById("beginSinceWatch").innerHTML = "00:00";
     document.getElementById("FinishAtWatch").innerHTML = "25:00";
     
     addCounter();
     subCounter();
-
+    endDate();
 
 
 };
