@@ -9,8 +9,11 @@ function timerField() {
 
     let lineBreak = document.createElement("br");
 
-    let columns = document.createElement("div");
-    columns.classList.add("columns", "is-mobile");
+    let columnsProject = document.createElement("div");
+    columnsProject.classList.add("columns", "is-mobile");
+
+    let columnsTimer = document.createElement("div");
+    columnsTimer.classList.add("columns", "is-mobile");
 
     let subtitleDiv = document.createElement("div");
     subtitleDiv.classList.add("subtitle", "is-4");
@@ -53,7 +56,29 @@ function timerField() {
 
     let endDateDiv = document.createElement("div");
     endDateDiv.classList.add("column", "is-one-quarter");
+
+    let columnProject = document.createElement("div");
+    columnProject.classList.add("column", "is-one-third");
+
+    let columnTask = document.createElement("div");
+    columnTask.classList.add("column", "is-one-third");
+
+    let titleProject = document.createElement("h4");
+    let titleProjectText = document.createTextNode("Projet:")
+    titleProject.appendChild(titleProjectText);
+
+    let titleTask = document.createElement("h4");
+    let titleTaskText = document.createTextNode("Tâche:");
+    titleTask.appendChild(titleTaskText);
     
+    let nameProject = document.createElement("p");
+    let nameProjectText = document.createTextNode("Projet X");
+    nameProject.appendChild(nameProjectText);
+
+    let nameTask = document.createElement("p");
+    let nameTaskText = document.createTextNode("Recherche");
+    nameTask.appendChild(nameTaskText);
+
     function addCounter(){ 
 
         let addSecond = 1;
@@ -216,13 +241,23 @@ function timerField() {
     finishAtDiv.appendChild(finishBaliseWatch);
     
     timeSetter.appendChild(subtitleDiv);
-    timeSetter.appendChild(columns);
-    columns.appendChild(beginSinceDiv);
-    columns.appendChild(finishAtDiv);
+    timeSetter.appendChild(columnsProject);
+    columnsProject.appendChild(columnProject);
+    columnsProject.appendChild(columnTask);
+    columnProject.appendChild(titleProject);
+    columnProject.appendChild(nameProject);
+    columnTask.appendChild(titleTask);
+    columnTask.appendChild(nameTask);
 
-    columns.appendChild(beginDateDiv);
+
+    timeSetter.appendChild(lineBreak);
+    timeSetter.appendChild(columnsTimer);
+    columnsTimer.appendChild(beginSinceDiv);
+    columnsTimer.appendChild(finishAtDiv);
+
+    columnsTimer.appendChild(beginDateDiv);
     beginDateDiv.appendChild(timeBaliseNow);
-    columns.appendChild(endDateDiv);
+    columnsTimer.appendChild(endDateDiv);
     endDateDiv.appendChild(timeBaliseAfter);
 
     document.getElementById("beginSinceWatch").innerHTML = "00:00";
