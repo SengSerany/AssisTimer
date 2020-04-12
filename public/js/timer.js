@@ -1,3 +1,4 @@
+let GlobalValues = {};
 let button = document.getElementById("timerBtn");
 let timeSetter = document.getElementById("setTime");
 
@@ -110,9 +111,13 @@ function timerField() {
                 
                 if (stopBtn.classList.contains("stopOn")){
                     clearInterval(addCounterSet);
-                    addSecond = 1;
-                    addMinute = 0;
                     document.getElementById("beginSinceWatch").innerHTML = "00:00";
+                } else if (playBtn.classList.contains("breakOn")){
+                    clearInterval(addCounterSet);
+                } else if(playBtn.classList.contains("breakOff") && playBtn.classList.contains("continue")){
+                    let inner = document.getElementById("beginSinceWatch").innerHTML.split(":");
+                    addMinute = parseInt(inner[0]);
+                    addSecond = parseInt(inner[1]);
                 } else if (addMinute == 0 && addSecond == 0){
                     document.getElementById("beginSinceWatch").innerHTML = "00:00";
                     addSecond = addSecond + 1;
@@ -151,18 +156,24 @@ function timerField() {
     };
 
     function subCounter(){ 
-
+        
         let subSecond = 59;
         let subMinute = 24;
 
         function subCounterInterval(){
             let subCounterSet = window.setInterval(() => {
 
-                if (stopBtn.classList.contains("stopOn")) {
+                if (stopBtn.classList.contains("stopOn")){
                     clearInterval(subCounterSet);
                     document.getElementById("FinishAtWatch").innerHTML = "25:00";
-
-                } else if (subMinute < 0 && subSecond == 59) {
+                } else if (playBtn.classList.contains("breakOn")){
+                    clearInterval(subCounterSet);
+                } else if(playBtn.classList.contains("breakOff") && playBtn.classList.contains("continue")){
+                    let inner = document.getElementById("FinishAtWatch").innerHTML.split(":");
+                    subMinute = parseInt(inner[0]);
+                    subSecond = parseInt(inner[1]);
+                    playBtn.classList.remove("continue");
+                } else if (subMinute < 0 && subSecond == 59){
                     document.getElementById("FinishAtWatch").innerHTML = "00:00";
                     clearInterval(subCounter);
                 } else if (subMinute >= 10 && subSecond == 0){
@@ -273,16 +284,21 @@ function timerField() {
             estimateTime();
             endDate();
             controlBtn();
+        } else if (playBtn.classList.contains("breakOn")){
+            imgPlayBtn.setAttribute("src", "/images/play_on.svg");
+            playBtn.className = "breakOff";
+            playBtn.classList.add("continue");
+        } else if(playBtn.classList.contains("breakOff")){
+            imgPlayBtn.setAttribute("src", "/images/pause_circle_on.svg");
+            playBtn.className = "breakOn";
         } else {
             alert("Le bouton play/pause ne marche pas correctent :c")
         };
-
         addCounter();
         subCounter();
-        
     }
 
-    stopTime = () => {
+    let stopTime = () => {
         if (stopBtn.classList.contains("stopOff")){
             imgStopBtn.setAttribute("src", "/images/stop_on.svg");
             imgPlayBtn.setAttribute("src", "/images/play_off.svg")
@@ -294,6 +310,7 @@ function timerField() {
             imgStopBtn.setAttribute("src", "/images/stop_off.svg");
             imgPlayBtn.setAttribute("src", "/images/play_on.svg")
             stopBtn.className = "stopOff";
+            playBtn.className = "breakOff";
             let btns = document.getElementById("controlBtns");
             btns.remove();
             estimateTime();
