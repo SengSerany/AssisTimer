@@ -115,9 +115,14 @@ function timerField() {
                 } else if (playBtn.classList.contains("breakOn")){
                     clearInterval(addCounterSet);
                 } else if(playBtn.classList.contains("breakOff") && playBtn.classList.contains("continue")){
-                    let inner = document.getElementById("beginSinceWatch").innerHTML.split(":");
-                    addMinute = parseInt(inner[0]);
-                    addSecond = parseInt(inner[1]);
+                    let addInner = document.getElementById("beginSinceWatch").innerHTML.split(":");
+                    addMinute = parseInt(addInner[0]);
+                    addSecond = parseInt(addInner[1]);
+                    let btns = document.getElementById("controlBtns");
+                    btns.remove();
+                    estimateTime();
+                    endDate();
+                    controlBtn();
                 } else if (addMinute == 0 && addSecond == 0){
                     document.getElementById("beginSinceWatch").innerHTML = "00:00";
                     addSecond = addSecond + 1;
@@ -169,9 +174,9 @@ function timerField() {
                 } else if (playBtn.classList.contains("breakOn")){
                     clearInterval(subCounterSet);
                 } else if(playBtn.classList.contains("breakOff") && playBtn.classList.contains("continue")){
-                    let inner = document.getElementById("FinishAtWatch").innerHTML.split(":");
-                    subMinute = parseInt(inner[0]);
-                    subSecond = parseInt(inner[1]);
+                    let subInner = document.getElementById("FinishAtWatch").innerHTML.split(":");
+                    subMinute = parseInt(subInner[0]);
+                    subSecond = parseInt(subInner[1]);
                     playBtn.classList.remove("continue");
                 } else if (subMinute < 0 && subSecond == 59){
                     document.getElementById("FinishAtWatch").innerHTML = "00:00";
@@ -291,6 +296,9 @@ function timerField() {
         } else if(playBtn.classList.contains("breakOff")){
             imgPlayBtn.setAttribute("src", "/images/pause_circle_on.svg");
             playBtn.className = "breakOn";
+            beginDateDiv.innerHTML = "";
+            endDateDiv.innerHTML = "";
+            
         } else {
             alert("Le bouton play/pause ne marche pas correctent :c")
         };
